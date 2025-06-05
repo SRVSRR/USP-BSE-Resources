@@ -1,0 +1,32 @@
+Start:          call    Subroutine1       ; Call Subroutine to take user input
+Compute:        call    Subroutine2       ; Call Subroutine to compute the function
+Output:         call    Subroutine3       ; Call Subroutine to display results
+Exit:           stop                      ; End program
+Subroutine1:    read                      ; Read n into accumulator
+                store   memory_n          ; Store n into memory
+		jumpn   Exit		  ; Check for negative values
+Subroutine2:
+                jumpz   BaseCheck 	  ; n = 0
+GreaterThanOne: add    const_6           ; n * 6
+		mult     result            ; add to result
+		store   result		  ; store result
+Resursive: 	load    memory_n          ; Load n
+		sub 	const_1           ; n - 1
+		store   memory_n          ; store n
+		jumpz   Add4 	          ; n = 0
+		jump    GreaterThanOne    ; n>0
+BaseCheck:      load    const_4           ; Load 4
+                push                      ; Push result onto stack
+                return  Output            ; Return from subroutine
+Add4:           load    result		  ; 
+		mult     const_4           ; 
+		push
+                return  Output            ; Return from subroutine
+Subroutine3:    pop                       ; Pop the result from the stack
+                write                     ; Display the result
+                return  Exit              ; Return to Exit
+memory_n:       .data 2 0                 ; Memory for input n
+const_1:        .data 2 1                 ; Constant 1
+const_4:        .data 2 4                 ; Constant 4
+const_6:        .data 2 6                 ; Constant 6
+result:         .data 2 1                 ; result
